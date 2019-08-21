@@ -8,7 +8,11 @@ class Instructor::CoursesController < ApplicationController
     def create
         @course = current_user.courses.create(course_params)
         redirect_to instructor_course_path(@course)
-      end
+    end
+
+    def show
+        @course = Course.find(params[:id])
+    end  
 
       private
 
