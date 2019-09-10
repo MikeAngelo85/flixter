@@ -21,4 +21,9 @@ class Instructor::LessonsController < ApplicationController
   def lesson_params
     params.require(:lesson).permit(:title, :subtitle, :video)
   end
+
+  def require_authorized_for_current_section
+    if current_user
+    end    
+  end 
 end
