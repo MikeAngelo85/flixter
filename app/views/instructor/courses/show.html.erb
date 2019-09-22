@@ -1,6 +1,6 @@
 <script>
   $(function() {
-    $('.lessons').sortable.({     //();
+    $('.lessons').sortable({ 
       update: function( event, ui ) {
         $.ajax({
           type: 'PUT',
@@ -10,7 +10,18 @@
         });
       }
       });
-  });
+
+  $('.sections').sortable({
+      update: function( event, ui ) {
+        $.ajax({
+          type: 'PUT',
+          url: ui.item.data('update-url'),
+          dataType: 'json',
+          data: { section: { row_order_position: ui.item.index() } }
+        });
+      }
+    });
+  }); 
   // sort -> let go of an item -> emits an update event -> update function that does something
   //move a lesson -> drop it in place -> update function will make a call to your database -> save the new order of the list
 </script>
@@ -35,8 +46,9 @@
 
 
   <ul class="section">
-    <% current_course.sections.each do |section| %>
-           <li class="section-li">
+    <% current_course.sections.rank(:row_order).each do |section| %>
+          <li data-update-url="<%= instructor_section_path section %>" class="section-li">
+            
 
         <div class="header">
           <span class="fa fa-ellipsis-v"></span>
